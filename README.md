@@ -1,5 +1,6 @@
 # Tess4JOcrApp
-<br/>![Cover Image](https://miro.medium.com/max/1050/1*NSlZwwPH3RPkNJIsByWLmw.png)
+<img src='https://miro.medium.com/max/1050/1*NSlZwwPH3RPkNJIsByWLmw.png' width='600'>
+
 ## A native Desktop application built with [Tess4J](http://tess4j.sourceforge.net/) in Java8
 ### Uses the open-sourced [Tesseract OCR Engine](https://github.com/tesseract-ocr/tesseract) & JNA Java Wrapper Class
 
