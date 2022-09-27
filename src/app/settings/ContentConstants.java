@@ -1,13 +1,12 @@
 package app.settings;
 
 public class ContentConstants {
-    private static final String APP_TITLE = "🔎 𝗧𝗲𝘀𝘀𝗲𝗿𝗮𝗰𝘁 𝗢𝗖𝗥 :: 𝐈𝐦𝐚𝐠𝐞/𝐏𝐃𝐅 𝐓𝐞𝐱𝐭 𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐢𝐨𝐧 🛠𝐓𝐨𝐨𝐥";
+    
+    private static final String APP_NAME = "『🔎 𝗧𝗲𝘀𝘀𝗲𝗿𝗮𝗰𝘁 𝗢𝗖𝗥』";
     private static final String PLACEHOLDER_TEXT = "- 𝙽𝙸𝙻 -";
     private static final String DISPLAYED_PROFILE_LINK = "h̲t̲t̲p̲s̲://g̲e̲e̲k̲-c̲c̲.m̲e̲d̲i̲u̲m̲.c̲o̲m̲̲";
     private static final String PROFILE_LINK = "https://medium.com/@geek-cc";
-   
     private static final String QUICK_TIPS_TITLE="🗦💡🗧𝚀𝚞𝚒𝚌𝚔 𝚃𝚒𝚙𝚜";
-    
     private static final String OPEN_IMG_BTN_TEXT=" 𝙾𝚙𝚎𝚗 𝙸𝚖𝚊𝚐𝚎 ";
     private static final String UPLOAD_PDF_BTN_TEXT=" 𝚄𝚙𝚕𝚘𝚊𝚍 𝙿𝙳𝙵 ";
     private static final String RUN_OCR_BTN_TEXT=" 𝚁𝚞𝚗 𝙾𝙲𝚁 ≫ ";
@@ -24,6 +23,7 @@ public class ContentConstants {
     private static final String ZOOM_IN_BTN_TEXT="  ⁺🔍  ";
     private static final String ZOOM_OUT_BTN_TEXT="  ⁻🔍  ";
     private static final String FIT_IMAGE_BTN_TEXT="⛶";
+    private static final String OPEN_IMAGE_NEW_WINDOW="⦏🡥⦐";
     
     private static final String IMAGE_PREVIEW_PLACEHOLDER="🖼 Preview";
     private static final String TEXTAREA_PLACEHOLDER="Note: Renders and auto-appends all OCR text outputs";
@@ -81,7 +81,7 @@ public class ContentConstants {
     }
     
     public String getAppTitle() {
-        return APP_TITLE;
+        return APP_NAME + ":: 𝐈𝐦𝐚𝐠𝐞/𝐏𝐃𝐅 𝐓𝐞𝐱𝐭 𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐢𝐨𝐧 🛠𝐓𝐨𝐨𝐥";
     }
     
     public String getPlaceholderText() {
@@ -103,9 +103,9 @@ public class ContentConstants {
     public String[] getQuickTips() {
         String[] quickTips = {
             "",
-            "𝐆𝐞𝐭𝐭𝐢𝐧𝐠 𝐬𝐭𝐚𝐫𝐭𝐞𝐝 𝐰𝐢𝐭𝐡『🔎 𝗧𝗲𝘀𝘀𝗲𝗿𝗮𝗰𝘁 𝗢𝗖𝗥』",
+            "𝐆𝐞𝐭𝐭𝐢𝐧𝐠 𝐬𝐭𝐚𝐫𝐭𝐞𝐝 𝐰𝐢𝐭𝐡"+APP_NAME,
             "𝖳𝗁𝗂𝗌 𝗌𝗈𝖿𝗍𝗐𝖺𝗋𝖾 𝗐𝖺𝗌 𝖻𝗎𝗂𝗅𝗍 𝗐𝗂𝗍𝗁 𝖳𝖾𝗌𝗌𝟦𝖩𝗏𝟥.𝟦.𝟣— 𝖺 𝖳𝖾𝗌𝗌𝖾𝗋𝖺𝖼𝗍 𝖮𝖢𝖱 𝖶𝗋𝖺𝗉𝗉𝖾𝗋 𝖿𝗈𝗋 𝖩𝖺𝗏𝖺. 𝖲𝗂𝗇𝖼𝖾 𝖳𝖾𝗌𝗌𝖾𝗋𝖺𝖼𝗍 𝖮𝖢𝖱",
-            "𝖾𝗇𝗀𝗂𝗇𝖾 𝖽𝖾𝗍𝖾𝖼𝗍𝗌 𝗍𝖾𝗑𝗍 𝖼𝗁𝖺𝗋𝖺𝖼𝗍𝖾𝗋𝗌 𝖿𝗋𝗈𝗆 𝗀𝗋𝖺𝗉𝗁𝗂𝖼𝖺𝗅 𝖿𝗈𝗋𝗆𝖺𝗍𝗌, 𝗂𝗍𝗌 𝖺𝗉𝗉𝗅𝗂𝖾𝖽 𝗍𝖾𝗑𝗍 𝖾𝗑𝗍𝗋𝖺𝖼𝗍𝗂𝗈𝗇 𝖼𝖺𝗉𝖺𝖻𝗂𝗅𝗂𝗍𝗂𝖾𝗌",
+            "𝖾𝗇𝗀𝗂𝗇𝖾 𝖽𝖾𝗍𝖾𝖼𝗍𝗌 𝗍𝖾𝗑𝗍 𝖼𝗁𝖺𝗋𝖺𝖼𝗍𝖾𝗋𝗌 𝖿𝗋𝗈𝗆 𝗀𝗋𝖺𝗉𝗁𝗂𝖼𝖺𝗅 𝖿𝗈𝗋𝗆𝖺𝗍𝗌, 𝗂𝗍𝗌 𝖺𝗉𝗉𝗅𝗂𝖾𝖽 ?𝖾𝗑𝗍 𝖾𝗑𝗍𝗋𝖺𝖼𝗍𝗂𝗈𝗇 𝖼𝖺𝗉𝖺𝖻𝗂𝗅𝗂𝗍𝗂𝖾?",
             "𝗋𝖾𝖽𝗎𝖼𝖾𝗌 𝗆𝗎𝖼𝗁 𝗍𝗂𝗆𝖾 𝖺𝗇𝖽 𝗆𝖺𝗇𝗎𝖺𝗅 𝗐𝗈𝗋𝗄. 𝖢𝗎𝗋𝗋𝖾𝗇𝗍 𝗌𝗈𝖿𝗍𝗐𝖺𝗋𝖾 𝗏𝖾𝗋𝗌𝗂𝗈𝗇 𝗌𝗎𝗉𝗉𝗈𝗋𝗍𝗌 𝗈𝗇𝗅𝗒 𝗍𝗁𝖾 𝖤𝗇𝗀𝗅𝗂𝗌𝗁 𝖫𝖺𝗇𝗀𝗎𝖺𝗀𝖾.",
             "………………………………………………………………………………………………………………………………………………………",
             "𝗣𝗿𝗼𝗰𝗲𝗲𝗱 𝘁𝗼 📤 𝘂𝗽𝗹𝗼𝗮𝗱 𝗮𝗻 𝗶𝗺𝗮𝗴𝗲 𝗼𝗿 𝗣𝗗𝗙 𝗳𝗼𝗿 𝗢𝗖𝗥 𝗽𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴",

@@ -4,6 +4,7 @@ import app.settings.ColorConstants;
 import app.settings.MeasurementConstants;
 import app.settings.ContentConstants;
 import app.settings.IconConstants;
+import app.util.Helpers;
 import app.util.TextPrompt;
 import com.formdev.flatlaf.FlatDarkLaf;
 import app.util.TextPrompt.Show;
@@ -27,18 +28,14 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.imageio.ImageIO;
@@ -82,6 +79,7 @@ public class Main {
     private static ContentConstants contentConstants;
     private static MeasurementConstants measurementConstants;
     private static ColorConstants colorConstants;
+    private static Helpers helpers;
     // ==================== DECLARE ALL CONSTANTS HERE ===================================
     private static String appIconURi;
     private static String openImgIconURI;
@@ -172,7 +170,8 @@ public class Main {
     private static JPanel p2;
     private static int v2;
     private static int h2;
-
+    
+    private static final File WORK_DIR = new File(System.getProperty("user.dir"));
     private static JFileChooser selectFileChooser = null;
     private static JFileChooser saveFileChooser = null;
 
@@ -244,23 +243,10 @@ public class Main {
     private static PDFRenderer pdfRenderer;
     private static int totalNoOfPages;
     
-    private static String getCurrentTimeStamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmaa");
-        Date date = new Date();
-        String timestamp = sdf.format(date);
-
-        return timestamp;
-    }
-
-    private static String getCurrentYear() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        Date date = new Date();
-        String year = sdf.format(date);
-        return year;
-    }
+    
 
     private static void addComponentsToPane(Container contentPane) {
-        labelEndNote = new JLabel("© " + getCurrentYear() + " 𝚋𝚢 ξ(🎀˶❛◡❛) ᵀᴴᴱ ᴿᴵᴮᴮᴼᴺ ᴳᴵᴿᴸ ╰┈➤");
+        labelEndNote = new JLabel("© " + helpers.getCurrentYear() + " 𝚋𝚢 ξ(🎀˶❛◡❛) ᵀᴴᴱ ᴿᴵᴮᴮᴼᴺ ᴳᴵᴿᴸ ╰┈➤");
 
         buttonBorder = BorderFactory.createEtchedBorder();
         bottomPanelBorder = BorderFactory.createBevelBorder(BevelBorder.RAISED, splitPaneParentPaneObjBgColor, splitPaneParentPaneObjBgColor);
@@ -332,19 +318,19 @@ public class Main {
             iconButton.setHorizontalTextPosition(SwingConstants.CENTER);
             iconButton.setVerticalTextPosition(SwingConstants.BOTTOM);
         }
-        openImgBtn.setIcon(getImageIcon(openImgIconURI, maxIconLength, maxIconLength));
-        uploadPDFBtn.setIcon(getImageIcon(uploadPDFIconURI, maxIconLength, maxIconLength));
+        openImgBtn.setIcon(helpers.getImageIcon(openImgIconURI, maxIconLength, maxIconLength));
+        uploadPDFBtn.setIcon(helpers.getImageIcon(uploadPDFIconURI, maxIconLength, maxIconLength));
 
-        runOCRBtn.setIcon(getImageIcon(runOCRIconURI, maxIconLength, maxIconLength));
-        runOCRAllBtn.setIcon(getImageIcon(runOCRAllIconURI, maxIconLength, maxIconLength));
+        runOCRBtn.setIcon(helpers.getImageIcon(runOCRIconURI, maxIconLength, maxIconLength));
+        runOCRAllBtn.setIcon(helpers.getImageIcon(runOCRAllIconURI, maxIconLength, maxIconLength));
 
-        saveTxtBtn.setIcon(getImageIcon(saveTextIconURI, maxIconLength, maxIconLength));
-        copyTxtBtn.setIcon(getImageIcon(copyTextIconURI, maxIconLength, maxIconLength));
+        saveTxtBtn.setIcon(helpers.getImageIcon(saveTextIconURI, maxIconLength, maxIconLength));
+        copyTxtBtn.setIcon(helpers.getImageIcon(copyTextIconURI, maxIconLength, maxIconLength));
 
-        clearTxtBtn.setIcon(getImageIcon(clearTextIconURI, maxIconLength, maxIconLength));
-        resetAllBtn.setIcon(getImageIcon(resetAllIconURI, maxIconLength, maxIconLength));
+        clearTxtBtn.setIcon(helpers.getImageIcon(clearTextIconURI, maxIconLength, maxIconLength));
+        resetAllBtn.setIcon(helpers.getImageIcon(resetAllIconURI, maxIconLength, maxIconLength));
 
-        quickTipsBtn.setIcon(getImageIcon(quickTipsIconURI, maxIconLength, maxIconLength));
+        quickTipsBtn.setIcon(helpers.getImageIcon(quickTipsIconURI, maxIconLength, maxIconLength));
 
         //adding combo box and buttons to our toolbar
         toolbar.addSeparator();
@@ -510,7 +496,7 @@ public class Main {
         tpTextArea.changeStyle(Font.BOLD);
         tpTextArea.setHorizontalAlignment(JLabel.CENTER);
         tpTextArea.setHorizontalTextPosition(JLabel.CENTER);
-
+        
         textScrollPane = new JScrollPane(textArea, v2, h2);
         p2.add(textScrollPane, BorderLayout.CENTER);
 
@@ -641,7 +627,6 @@ public class Main {
         imagePreview.revalidate();
         imagePreview.setText(imagePreviewPlaceholder);
         textArea.setText("");
-        tpTextArea.setShow(Show.FOCUS_LOST);
     }
 
     private static void openImageAction() {
@@ -652,6 +637,7 @@ public class Main {
                 File selectedFile=null;
                 
                 selectFileChooser = new JFileChooser();
+                selectFileChooser.setCurrentDirectory(WORK_DIR);
                 selectFileChooser.setDialogTitle("Select Input Image(s):");
                 selectFileChooser.setMultiSelectionEnabled(true);
                 selectFileChooser.setAcceptAllFileFilterUsed(false);
@@ -665,7 +651,7 @@ public class Main {
                         selectedFile=selectedFiles[f];
                          if(selectedFile!=null) {
                             publish(f); // to be received by process | 2nd parameter
-                            imageURI = getImageFileURI(selectedFile);
+                            imageURI = helpers.getImageFileURI(selectedFile);
                             INPUT_IMG_URI_LIST.add(imageURI);
                             jListInputPicsModel.addElement("Image " + f);
                         }
@@ -708,12 +694,13 @@ public class Main {
                 String tempPdfPageFileName=null;
                 
                 selectFileChooser = new JFileChooser();
+                selectFileChooser.setCurrentDirectory(WORK_DIR);
                 selectFileChooser.setDialogTitle("Upload PDF File:");
                 selectFileChooser.setMultiSelectionEnabled(false);
                 selectFileChooser.setAcceptAllFileFilterUsed(false);
                 filter = new FileNameExtensionFilter("Pdf File (.pdf)", "pdf");
                 selectFileChooser.addChoosableFileFilter(filter);
-
+                
                 option = selectFileChooser.showOpenDialog(appFrame);
                 if (option == JFileChooser.APPROVE_OPTION) {
                     selectedFile = selectFileChooser.getSelectedFile();
@@ -724,14 +711,14 @@ public class Main {
                         totalNoOfPages = document.getNumberOfPages();
                         for (int p = 0; p < totalNoOfPages; p++) {  // FOR-EACH PAGE
                             tempPageImg = pdfRenderer.renderImageWithDPI(p, imageDPI, ImageType.RGB);
-                            tempPdfPageFileName = String.format(getCurrentTimeStamp() + "_tempPdfPage_%d.%s", p + 1, "jpg");
+                            tempPdfPageFileName = String.format(helpers.getCurrentTimeStamp() + "_tempPdfPage_%d.%s", p + 1, "jpg");
                             ImageIOUtil.writeImage(tempPageImg, tempPdfPageFileName, imageDPI);
                             tempPdfPageFile = new File(tempPdfPageFileName);
                             
                             if (tempPdfPageFile.exists()) {
                                 publish(p); // to be received by process | 2nd parameter
                                 try {
-                                    imageURI = getImageFileURI(tempPdfPageFile);
+                                    imageURI = helpers.getImageFileURI(tempPdfPageFile);
                                     INPUT_IMG_URI_LIST.add(imageURI);
                                     jListInputPicsModel.addElement("Page " + p);
                                 } catch (IOException ex) {
@@ -773,10 +760,11 @@ public class Main {
         };
         worker.execute();
     }
-    
-    
+  
     private static void runOcrAllAction() {
-        SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>() {
+        SwingWorker<Boolean, String> worker = new SwingWorker<Boolean, String>() {
+            int p=0;
+            
             @Override
             protected Boolean doInBackground() throws Exception {
                 Path currentRelativePath = Paths.get("");
@@ -786,15 +774,17 @@ public class Main {
                 
                 try {
                     tesseract.setDatapath(dataDir.getAbsolutePath());
-                    for (int p = 0; p < INPUT_IMG_URI_LIST.size(); p++) {
+                    for (p = 0; p < INPUT_IMG_URI_LIST.size(); p++) {
+                        jListInputPics.setSelectedIndex(p);
+                        selectedIndex=p;
                         imageURI = INPUT_IMG_URI_LIST.get(p);
                         if (imageURI != null) {
-                            publish(p); // to be received by process | 2nd parameter
                             byte[] fileBytes = Base64.getDecoder().decode(imageURI);
                             Image img = ImageIO.read(new ByteArrayInputStream(fileBytes));
                             ImageIcon imgIcon = new ImageIcon(img);
-                            BufferedImage bImg = getBufferedImage(imgIcon);
+                            BufferedImage bImg = helpers.getBufferedImage(imgIcon);
                             extractedOutput = tesseract.doOCR(bImg);
+                            publish(extractedOutput); // to be received by process | 2nd parameter
                         } else {
                             System.out.println("Input source does not exists/is invalid.");
                         }
@@ -811,7 +801,7 @@ public class Main {
                 try {
                     boolean status = get(); // Retrieve the return value of doInBackground.
                     if(status) {
-                        updatePreviewedPageNo();
+                        System.out.println("Done");
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -819,15 +809,71 @@ public class Main {
             }
 
             @Override
-            protected void process(List<Integer> chunks) { // Can safely update the GUI from this method.
-                int mostRecentValue = chunks.get(chunks.size() - 1);
-                selectedIndex=mostRecentValue;
-                jListInputPics.setSelectedIndex(selectedIndex);
+            protected void process(List<String> chunks) { // Can safely update the GUI from this method.
+//                System.out.println("p: "+p+"| selectedIndex: "+selectedIndex);
+                
+                String mostRecentValue = chunks.get(chunks.size() - 1);
+                extractedOutput=mostRecentValue;
                 textArea.append(extractedOutput);
+                
                 renderPreviewImage();
             }
         };
         worker.execute();
+        
+//        
+//        SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>() {
+//            @Override
+//            protected Boolean doInBackground() throws Exception {
+//                Path currentRelativePath = Paths.get("");
+//                String s = currentRelativePath.toAbsolutePath().toString();
+//                File dataDir = new File(s, "tessdata");
+//                Tesseract tesseract = new Tesseract();
+//                
+//                try {
+//                    tesseract.setDatapath(dataDir.getAbsolutePath());
+//                    for (int p = 0; p < INPUT_IMG_URI_LIST.size(); p++) {
+//                        imageURI = INPUT_IMG_URI_LIST.get(p);
+//                        if (imageURI != null) {
+//                            publish(p); // to be received by process | 2nd parameter
+//                            byte[] fileBytes = Base64.getDecoder().decode(imageURI);
+//                            Image img = ImageIO.read(new ByteArrayInputStream(fileBytes));
+//                            ImageIcon imgIcon = new ImageIcon(img);
+//                            BufferedImage bImg = helpers.getBufferedImage(imgIcon);
+//                            extractedOutput = tesseract.doOCR(bImg);
+//                        } else {
+//                            System.out.println("Input source does not exists/is invalid.");
+//                        }
+//                    }
+//                    return true;
+//                } catch (TesseractException | IOException err) {
+//                    err.printStackTrace();
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            protected void done() { // Can safely update the GUI from this method.
+//                try {
+//                    boolean status = get(); // Retrieve the return value of doInBackground.
+//                    if(status) {
+//                        updatePreviewedPageNo();
+//                    }
+//                } catch (InterruptedException | ExecutionException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            protected void process(List<Integer> chunks) { // Can safely update the GUI from this method.
+//                int mostRecentValue = chunks.get(chunks.size() - 1);
+//                selectedIndex=mostRecentValue;
+//                jListInputPics.setSelectedIndex(selectedIndex);
+//                textArea.append(extractedOutput);
+//                renderPreviewImage();
+//            }
+//        };
+//        worker.execute();
     }
 
     private static void runOcrAction() {
@@ -846,7 +892,7 @@ public class Main {
                         byte[] fileBytes = Base64.getDecoder().decode(imageURI);
                         Image img = ImageIO.read(new ByteArrayInputStream(fileBytes));
                         ImageIcon imgIcon = new ImageIcon(img);
-                        BufferedImage bImg = getBufferedImage(imgIcon);
+                        BufferedImage bImg = helpers.getBufferedImage(imgIcon);
                         
                         extractedOutput = tesseract.doOCR(bImg);
                         publish(extractedOutput); // to be received by process | 2nd parameter
@@ -940,7 +986,6 @@ public class Main {
             updatePreviewedPageNo();
         }
     }
-
     private static void nextItemAction() {
         if (selectedIndex < (jListInputPicsModel.getSize() - 1)) {
             selectedIndex = selectedIndex + 1;
@@ -949,12 +994,10 @@ public class Main {
             updatePreviewedPageNo();
         }
     }
-
     private static void fitImage() {
         currentImageScale = 1.0;
         renderPreviewImage();
     }
-
     private static void zoomInImage() {
         int selectedImgLength = selectedImgWidth;
         int maxLength = maxImgWidth;
@@ -969,7 +1012,6 @@ public class Main {
             renderPreviewImage();
         }
     }
-
     private static void zoomOutImage() {
         if (currentImageScale > 0.4096) { // 0.8⁴ = 0.4096 | Math.power(0.8,4)
             currentImageScale = currentImageScale * 0.8;
@@ -986,12 +1028,11 @@ public class Main {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         clipboard.setContents(stringSelection, null);
     }
-
     private static void saveTextAction() {
         saveFileChooser = new JFileChooser();
         saveFileChooser.setDialogTitle("Save Output To File:");
         saveFileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-        outputFile = new File("output_" + getCurrentTimeStamp() + ".txt");
+        outputFile = new File("output_" + helpers.getCurrentTimeStamp() + ".txt");
         saveFileChooser.setSelectedFile(outputFile);
         saveFileChooser.setFileFilter(new FileNameExtensionFilter("Text Documents (*.txt)", "txt"));
 
@@ -1014,7 +1055,6 @@ public class Main {
             }
         }
     }
-
     private static void runClearTextAction() {
         textArea.setText("");
     }
@@ -1041,7 +1081,6 @@ public class Main {
             gc.gridy = q;
             infoPane.add(new JLabel(quickTips[q]), gc);
         }
-
         infoScrollPane = new JScrollPane(
             infoPane,
             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -1057,42 +1096,6 @@ public class Main {
         infoDialog.pack();
         infoDialog.setLocationRelativeTo(appFrame);
         infoDialog.setVisible(true);
-    }
-
-    private static BufferedImage getBufferedImage(ImageIcon imgIcon) {
-        Image tmpImage = imgIcon.getImage();
-
-        BufferedImage bImg = new BufferedImage(imgIcon.getIconWidth(), imgIcon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
-        bImg.getGraphics().drawImage(tmpImage, 0, 0, null);
-        tmpImage.flush();
-
-        return bImg;
-    }
-
-    private static ImageIcon getImageIcon(String imageIconURI, int maxWidth, int maxHeight) {
-        ImageIcon imgIcon = null;
-        byte[] fileBytes = Base64.getDecoder().decode(imageIconURI);
-        try {
-            Image img = ImageIO.read(new ByteArrayInputStream(fileBytes));
-            imgIcon = new ImageIcon(img);
-            Image scaledImg = img.getScaledInstance((int) maxWidth, (int) maxHeight, Image.SCALE_SMOOTH);
-            imgIcon.setImage(scaledImg);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return imgIcon;
-    }
-
-    private static String getImageFileURI(File imageFile) throws IOException {
-        String base64File = "";
-        try (FileInputStream imageInFile = new FileInputStream(imageFile)) {
-            byte fileData[] = new byte[(int) imageFile.length()];
-            imageInFile.read(fileData);
-            base64File = Base64.getEncoder().encodeToString(fileData);
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found " + e);
-        }
-        return base64File;
     }
     
     private static void setConstantValues() {
@@ -1167,6 +1170,7 @@ public class Main {
         iconConstants = new IconConstants();
         contentConstants = new ContentConstants();
         colorConstants = new ColorConstants();
+        helpers = new Helpers();
         setConstantValues();
         
         appFrame = new JFrame(appTitle);
