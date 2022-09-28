@@ -67,6 +67,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.varia.NullAppender;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -633,8 +634,13 @@ public class Main {
         SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                File[] selectedFiles;
+                File tempPdfPageFile=null;
+                String tempPdfPageFileName=null;
                 File selectedFile=null;
+                File[] selectedFiles=null;
+                
+                String filename=null;
+                String fileExt=null;
                 
                 selectFileChooser = new JFileChooser();
                 selectFileChooser.setCurrentDirectory(WORK_DIR);
@@ -646,21 +652,37 @@ public class Main {
                 
                 option = selectFileChooser.showOpenDialog(appFrame);
                 if (option == JFileChooser.APPROVE_OPTION) {
-                    selectedFiles=selectFileChooser.getSelectedFiles();
-                    for(int f=0;f<selectedFiles.length;f++) {
-                        selectedFile=selectedFiles[f];
-                         if(selectedFile!=null) {
-                            publish(f); // to be received by process | 2nd parameter
-                            imageURI = helpers.getImageFileURI(selectedFile);
-                            INPUT_IMG_URI_LIST.add(imageURI);
-                            jListInputPicsModel.addElement("Image " + f);
+                    selectedFiles = selectFileChooser.getSelectedFiles();
+                    totalNoOfPages = selectedFiles.length;
+                    for (int p = 0; p < totalNoOfPages; p++) {  // FOR-EACH PAGE
+                        selectedFile=selectedFiles[p];
+                        filename=selectedFile.getName();
+                        fileExt=filename.substring(filename.lastIndexOf(".")+1);
+                        tempPdfPageFileName = String.format(helpers.getCurrentTimeStamp() + "_tempImgPage_%d.%s", p + 1, fileExt);
+                        tempPdfPageFile = new File(tempPdfPageFileName);
+                        FileUtils.copyFile(selectedFile, tempPdfPageFile);
+                        
+                        if (tempPdfPageFile.exists()) {
+                            publish(p); // to be received by process | 2nd parameter
+                            try {
+                                imageURI = helpers.getImageFileURI(tempPdfPageFile);
+                                INPUT_IMG_URI_LIST.add(imageURI);
+                                jListInputPicsModel.addElement("Page " + p);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            } finally {
+                                boolean tempFileRemoved = tempPdfPageFile.delete();
+                                if (tempFileRemoved) {
+                                    System.out.println("Temp file: " + tempPdfPageFileName + " removed successfully.");
+                                }
+                            }
                         }
                     }
                     return true;
                 }
                 return false;
             }
-
+            
             @Override
             protected void done() { // Can safely update the GUI from this method.
                 try {
@@ -763,8 +785,6 @@ public class Main {
   
     private static void runOcrAllAction() {
         SwingWorker<Boolean, String> worker = new SwingWorker<Boolean, String>() {
-            int p=0;
-            
             @Override
             protected Boolean doInBackground() throws Exception {
                 Path currentRelativePath = Paths.get("");
@@ -774,7 +794,7 @@ public class Main {
                 
                 try {
                     tesseract.setDatapath(dataDir.getAbsolutePath());
-                    for (p = 0; p < INPUT_IMG_URI_LIST.size(); p++) {
+                    for (int p = 0; p < INPUT_IMG_URI_LIST.size(); p++) {
                         jListInputPics.setSelectedIndex(p);
                         selectedIndex=p;
                         imageURI = INPUT_IMG_URI_LIST.get(p);
@@ -782,8 +802,9 @@ public class Main {
                             byte[] fileBytes = Base64.getDecoder().decode(imageURI);
                             Image img = ImageIO.read(new ByteArrayInputStream(fileBytes));
                             ImageIcon imgIcon = new ImageIcon(img);
-                            BufferedImage bImg = helpers.getBufferedImage(imgIcon);
-                            extractedOutput = tesseract.doOCR(bImg);
+                            BufferedImage ipImg = helpers.getBufferedImage(imgIcon);
+//                            BufferedImage bImg=helpers.getProcessedBufferImg(ipImg);
+                            extractedOutput = tesseract.doOCR(ipImg);
                             publish(extractedOutput); // to be received by process | 2nd parameter
                         } else {
                             System.out.println("Input source does not exists/is invalid.");
@@ -801,7 +822,7 @@ public class Main {
                 try {
                     boolean status = get(); // Retrieve the return value of doInBackground.
                     if(status) {
-                        System.out.println("Done");
+                        updatePreviewedPageNo();
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -810,70 +831,13 @@ public class Main {
 
             @Override
             protected void process(List<String> chunks) { // Can safely update the GUI from this method.
-//                System.out.println("p: "+p+"| selectedIndex: "+selectedIndex);
-                
                 String mostRecentValue = chunks.get(chunks.size() - 1);
                 extractedOutput=mostRecentValue;
                 textArea.append(extractedOutput);
-                
                 renderPreviewImage();
             }
         };
         worker.execute();
-        
-//        
-//        SwingWorker<Boolean, Integer> worker = new SwingWorker<Boolean, Integer>() {
-//            @Override
-//            protected Boolean doInBackground() throws Exception {
-//                Path currentRelativePath = Paths.get("");
-//                String s = currentRelativePath.toAbsolutePath().toString();
-//                File dataDir = new File(s, "tessdata");
-//                Tesseract tesseract = new Tesseract();
-//                
-//                try {
-//                    tesseract.setDatapath(dataDir.getAbsolutePath());
-//                    for (int p = 0; p < INPUT_IMG_URI_LIST.size(); p++) {
-//                        imageURI = INPUT_IMG_URI_LIST.get(p);
-//                        if (imageURI != null) {
-//                            publish(p); // to be received by process | 2nd parameter
-//                            byte[] fileBytes = Base64.getDecoder().decode(imageURI);
-//                            Image img = ImageIO.read(new ByteArrayInputStream(fileBytes));
-//                            ImageIcon imgIcon = new ImageIcon(img);
-//                            BufferedImage bImg = helpers.getBufferedImage(imgIcon);
-//                            extractedOutput = tesseract.doOCR(bImg);
-//                        } else {
-//                            System.out.println("Input source does not exists/is invalid.");
-//                        }
-//                    }
-//                    return true;
-//                } catch (TesseractException | IOException err) {
-//                    err.printStackTrace();
-//                }
-//                return false;
-//            }
-//
-//            @Override
-//            protected void done() { // Can safely update the GUI from this method.
-//                try {
-//                    boolean status = get(); // Retrieve the return value of doInBackground.
-//                    if(status) {
-//                        updatePreviewedPageNo();
-//                    }
-//                } catch (InterruptedException | ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            protected void process(List<Integer> chunks) { // Can safely update the GUI from this method.
-//                int mostRecentValue = chunks.get(chunks.size() - 1);
-//                selectedIndex=mostRecentValue;
-//                jListInputPics.setSelectedIndex(selectedIndex);
-//                textArea.append(extractedOutput);
-//                renderPreviewImage();
-//            }
-//        };
-//        worker.execute();
     }
 
     private static void runOcrAction() {
@@ -884,17 +848,17 @@ public class Main {
                 String s = currentRelativePath.toAbsolutePath().toString();
                 File dataDir = new File(s, "tessdata");
                 Tesseract tesseract = new Tesseract();
-                
                 try {
                     tesseract.setDatapath(dataDir.getAbsolutePath());
+                    tesseract.setLanguage("eng"); // vie
                     imageURI = INPUT_IMG_URI_LIST.get(selectedIndex);
                     if (imageURI != null) {
                         byte[] fileBytes = Base64.getDecoder().decode(imageURI);
                         Image img = ImageIO.read(new ByteArrayInputStream(fileBytes));
                         ImageIcon imgIcon = new ImageIcon(img);
-                        BufferedImage bImg = helpers.getBufferedImage(imgIcon);
-                        
-                        extractedOutput = tesseract.doOCR(bImg);
+                        BufferedImage ipImg = helpers.getBufferedImage(imgIcon);
+//                        BufferedImage bImg=helpers.getProcessedBufferImg(ipImg);
+                        extractedOutput = tesseract.doOCR(ipImg);
                         publish(extractedOutput); // to be received by process | 2nd parameter
                     } else {
                         System.out.println("Input source does not exists/is invalid.");
@@ -911,7 +875,7 @@ public class Main {
                 try {
                     boolean status = get(); // Retrieve the return value of doInBackground.
                     if(status) {
-                        System.out.println("Done");
+                        updatePreviewedPageNo();
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -952,8 +916,10 @@ public class Main {
                 double ratio = (maxImgLength * 1.0) / (iconLength * 1.0);
                 long newWidth = (long) (Math.round(ratio * iconWidth) * currentImageScale);
                 long newHeight = (long) (Math.round(ratio * iconHeight) * currentImageScale);
-
-                Image outputImg = img.getScaledInstance((int) newWidth, (int) newHeight, Image.SCALE_SMOOTH);
+                
+                BufferedImage ipImg=helpers.getBufferedImage(imgIcon);
+//                BufferedImage opImg=helpers.getProcessedBufferImg(ipImg);
+                Image outputImg = ipImg.getScaledInstance((int) newWidth, (int) newHeight, Image.SCALE_SMOOTH);
                 imgIcon.setImage(outputImg);
                 imagePreview.setIcon(imgIcon);
             } catch (IOException ex) {
@@ -961,6 +927,7 @@ public class Main {
             }
         }
     }
+    
     private static void updatePreviewedPageNo() {
         String totalPagesMonospaceStr = "";
         String totalPages = jListInputPicsModel.getSize() + "";
@@ -1018,7 +985,6 @@ public class Main {
             renderPreviewImage();
         }
     }
-
     private static void copyTextToClipboardAction() {
         String str = textArea.getText();
         textArea.selectAll();

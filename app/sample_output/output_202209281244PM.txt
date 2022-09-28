@@ -1,0 +1,51 @@
+Placement Preparation Guide
+This guide will cover everything you need to prepare for your dream job. The basic 3-
+tructure of this course is as follows:
+Resume Building
+Application Procedure
+Details about the interview rounds
+Interview Experiences
+Practice Tracks
+Mock Tests
+FAQs regarding placements
+Additional Resources
+Placement preparation solely depends on the company for which you are preparing.
+There are basically three different categories into which we can divide the
+companies visiting campuses for placements based on their recruitment process.
+1. Mass Recruiters
+2. Tech Giants
+3. Others / Start-ups
+Companies belonging to the above categories have their own recruitment process. In
+this course, we will try to cover every possible detail required to know for cracking
+interview of the companies falling in each of the above categories.
+
+Resume Building
+According to the wiki definition,
+A resume is a brief summary of your skills and experience over one or two pages.
+A resume must be built according to a specificjob opening and the company.
+Resumes can have different formats based on the profile for which you are applying,
+the company to which you are applying etc. Here, we will discuss a format which is
+suitable for the role of Software Developers. Below are some of the key points that
+everyone should keep in mind while writing a Resume:
+Single Page Resume: The most common mistake that everyone makes is to
+write every possible detail about themselves in their resume which makes their
+resumes lengthy up to 2-3 pages. Recruiters do not have this much of time to
+read a complete resume of 2-3 pages, they hardly pay around 20-30 seconds
+on each resume. So, keep your resume short up to a single page. Also, when
+you are writing less then you will write only important things about you.
+No Career Objective: This is also a common mistake done by job aspirants. A
+career objective generally read as, “Objective: To utilize my knowledge, skills,
+and abilities as a Software Engineer”. Focusing on this quoted sentence it
+basically states the position you are applying for and your interests which the
+recruiter already knows. 80, including this will only end up eating space in your
+resume.
+Include Accomplishments: Try to make your resume accomplishment-
+oriented and not responsibilities oriented. Accomplishments state the things you
+have achieved and how well do you have managed your responsibilities.
+Count Matters: Do not get confuse with the word count here. By count, we
+mean that you should always specify the count whenever you are including any
+accomplishment in your resume. For Example, if you have won any competition
+then do specify this achievement along with your rank.
+Avoid Grammatical Mistakes: Do read your resume multiple times to check if
+there is any grammatical error.
+
