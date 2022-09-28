@@ -794,6 +794,7 @@ public class Main {
                 
                 try {
                     tesseract.setDatapath(dataDir.getAbsolutePath());
+                    tesseract.setLanguage("eng+osd+equ");
                     for (int p = 0; p < INPUT_IMG_URI_LIST.size(); p++) {
                         jListInputPics.setSelectedIndex(p);
                         selectedIndex=p;
@@ -850,7 +851,7 @@ public class Main {
                 Tesseract tesseract = new Tesseract();
                 try {
                     tesseract.setDatapath(dataDir.getAbsolutePath());
-                    tesseract.setLanguage("eng"); // vie
+                    tesseract.setLanguage("eng+osd+equ");
                     imageURI = INPUT_IMG_URI_LIST.get(selectedIndex);
                     if (imageURI != null) {
                         byte[] fileBytes = Base64.getDecoder().decode(imageURI);
