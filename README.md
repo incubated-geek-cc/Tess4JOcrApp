@@ -38,6 +38,6 @@
 
 - Page 2
 
-<img src='https://miro.medium.com/max/1400/1*0gz5gcgyvJuvPzl68oA-Vg.png' width='600'>
+<img src='https://miro.medium.com/max/1400/1*fr7t2IMJYagNBZc8axun_w.png' width='600'>
 
 ---
