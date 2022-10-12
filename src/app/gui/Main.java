@@ -119,7 +119,9 @@ public class Main {
     private static int splitPaneMainContentBorderThickness;
     private static int scrollPanePadding;
     private static int imageDPI;
-
+    
+    private static double zoomFactor;
+    
     private static String appTitle;
     private static String placeholderText;
     private static String displayedProfileLink;
@@ -636,9 +638,9 @@ public class Main {
         nextPageBtn.addActionListener((ActionEvent evt) -> toggleItemAction(false));
         rotateRightBtn.addActionListener((ActionEvent evt) -> rotateImgAction(true));
         rotateLeftBtn.addActionListener((ActionEvent evt) -> rotateImgAction(false));
+        zoomInBtn.addActionListener((ActionEvent evt) -> zoomImage(true));
+        zoomOutBtn.addActionListener((ActionEvent evt) -> zoomImage(false));
         
-        zoomInBtn.addActionListener((ActionEvent evt) -> zoomInImage());
-        zoomOutBtn.addActionListener((ActionEvent evt) -> zoomOutImage());
         fitImageBtn.addActionListener((ActionEvent evt) -> fitImage());
 
         runOCRBtn.addActionListener((ActionEvent evt) -> runOcrAction());
@@ -891,7 +893,6 @@ public class Main {
                             Image img = ImageIO.read(new ByteArrayInputStream(fileBytes));
                             ImageIcon imgIcon = new ImageIcon(img);
                             BufferedImage ipImg = utilityMgr.getImageIconToBufferedImg(imgIcon);
-
                             /*
                              IMAGE ENHANCEMENTS
                              BufferedImage bImg = utilityMgr.getGrayscaledBufferImg(ipImg);
@@ -902,7 +903,6 @@ public class Main {
                             String[] strArr = extractedOutput.split("\\r\\n|\\r|\\n");
                             extractedOutput=join(strArr, " ") + System.lineSeparator() + "";
                             */
-                            
                             extractedOutput = tesseractInstance.doOCR(ipImg);
                             
                             String[] strArr = extractedOutput.split("\\r\\n|\\r|\\n");
@@ -921,7 +921,6 @@ public class Main {
                 }
                 return false;
             }
-
             @Override
             protected void done() { // Can safely update the GUI from this method.
                 try {
@@ -935,7 +934,6 @@ public class Main {
                     utilityMgr.getLogger().log(Level.SEVERE, null, e);
                 }
             }
-
             @Override
             protected void process(List<String> chunks) { // Can safely update the GUI from this method.
                 String mostRecentValue = chunks.get(chunks.size() - 1);
@@ -958,7 +956,6 @@ public class Main {
                         Image img = ImageIO.read(new ByteArrayInputStream(fileBytes));
                         ImageIcon imgIcon = new ImageIcon(img);
                         BufferedImage ipImg = utilityMgr.getImageIconToBufferedImg(imgIcon);
-
                         /*
                          IMAGE ENHANCEMENTS
                          BufferedImage bImg = utilityMgr.getGrayscaledBufferImg(ipImg);
@@ -983,7 +980,6 @@ public class Main {
                 }
                 return false;
             }
-
             @Override
             protected void done() { // Can safely update the GUI from this method.
                 try {
@@ -995,10 +991,8 @@ public class Main {
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     utilityMgr.getLogger().log(Level.SEVERE, null, e);
-
                 }
             }
-
             @Override
             protected void process(List<String> chunks) { // Can safely update the GUI from this method.
                 String mostRecentValue = chunks.get(chunks.size() - 1);
@@ -1035,7 +1029,6 @@ public class Main {
                 double ratio = (maxImgLength * 1.0) / (iconLength * 1.0);
                 long newWidth = (long) (Math.round(ratio * iconWidth) * currentImageScale);
                 long newHeight = (long) (Math.round(ratio * iconHeight) * currentImageScale);
-
                 /*
                  //  IMAGE ENHANCEMENTS
                  BufferedImage bImg = utilityMgr.getGrayscaledBufferImg(ipImg);
@@ -1068,7 +1061,6 @@ public class Main {
         paginationDisplay.setText(displayStr);
     }
 
-    
     private static void fitImage() {
         SwingWorker<Boolean, String> worker = new SwingWorker<Boolean, String>() {
             @Override
@@ -1091,22 +1083,32 @@ public class Main {
         };
         worker.execute();
     }
-    private static void zoomInImage() {
+    
+    private static void zoomImage(boolean zoomIn) {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() {
-                int selectedImgLength = selectedImgWidth;
-                int maxLength = maxImgWidth;
-                if (selectedImgHeight > selectedImgWidth) {
-                    selectedImgLength = selectedImgHeight;
-                    maxLength = maxImgHeight;
-                }
-                int updatedImgLength = (int) ((currentImageScale * 1.25) * maxLength);
-                if (updatedImgLength < selectedImgLength) {
-                    currentImageScale = currentImageScale * 1.25;
-                    return true;
+                if(zoomIn) {
+                    int selectedImgLength = selectedImgWidth;
+                    int maxLength = maxImgWidth;
+                    if (selectedImgHeight > selectedImgWidth) {
+                        selectedImgLength = selectedImgHeight;
+                        maxLength = maxImgHeight;
+                    }
+                    int updatedImgLength = (int) ((currentImageScale * (1.0/zoomFactor) ) * maxLength);
+                    if (updatedImgLength < selectedImgLength) {
+                        currentImageScale = currentImageScale * (1.0/zoomFactor);
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
-                    return false;
+                    if (currentImageScale > Math.pow(zoomFactor, 4)) { 
+                        currentImageScale = currentImageScale * zoomFactor;
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
 
@@ -1116,9 +1118,9 @@ public class Main {
                     boolean status = get(); // Retrieve the return value of doInBackground.
                     if (status) {
                         renderPreviewImage();
-                        utilityMgr.outputConsoleLogsBreakline("Image zooms in");
+                        utilityMgr.outputConsoleLogsBreakline("Image zooms "+ ( zoomIn ? "in" : "out") );
                     } else {
-                        utilityMgr.outputConsoleLogsBreakline("Can't zoom in any further");
+                        utilityMgr.outputConsoleLogsBreakline("Can't zoom " + ( zoomIn ? "in" : "out") + " any further");
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     utilityMgr.getLogger().log(Level.SEVERE, null, e);
@@ -1126,38 +1128,7 @@ public class Main {
             }
         };
         worker.execute();
-    }
-    private static void zoomOutImage() {
-        SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
-            @Override
-            protected Boolean doInBackground() {
-                if (currentImageScale > 0.4096) { // 0.8⁴ = 0.4096 | Math.power(0.8,4)
-                    currentImageScale = currentImageScale * 0.8;
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-
-            @Override
-            protected void done() { // Can safely update the GUI from this method.
-                try {
-                    boolean status = get(); // Retrieve the return value of doInBackground.
-                    if (status) {
-                        renderPreviewImage();
-                        utilityMgr.outputConsoleLogsBreakline("Image zooms out");
-                    } else {
-                        utilityMgr.outputConsoleLogsBreakline("Can't zoom out any further");
-                    }
-                } catch (InterruptedException | ExecutionException e) {
-                    utilityMgr.getLogger().log(Level.SEVERE, null, e);
-                }
-            }
-        };
-        worker.execute();
-    } 
-    
-    
+    }  
     private static void toggleItemAction(boolean togglePrev) {
         SwingWorker<Boolean, String> worker = new SwingWorker<Boolean, String>() {
             @Override
@@ -1340,11 +1311,13 @@ public class Main {
 
         dividerLocationOutputLogs = measurementConstants.getDividerLocationOutputLogs();
         resizeWeightOutputLogs = measurementConstants.getResizeWeightOutputLogs();
-
         scrollPanePadding = measurementConstants.getScrollPanePadding();
 
         imageDPI = measurementConstants.getImageDPI();
-
+        
+        zoomFactor = measurementConstants.getZoomFactor();
+        
+        
         appTitle = contentConstants.getAppTitle();
         placeholderText = contentConstants.getPlaceholderText();
         displayedProfileLink = contentConstants.getDisplayedProfileLink();

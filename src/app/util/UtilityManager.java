@@ -76,7 +76,7 @@ public class UtilityManager {
             @Override
             protected Boolean doInBackground() {
                 String logString = "";
-                int charLimit = 180;
+                int charLimit = 150;
                 if (consoleCaption.length() > charLimit) {
                     logString = consoleCaption.substring(0, charLimit - 4) + " ...";
                 } else {
@@ -200,32 +200,32 @@ public class UtilityManager {
     }
     public void displayOCRAllCompletionDialog(JFrame appFrame) {
         String message = 
-        "⛶ 𝗢𝗖𝗥 𝗦𝘁𝗮𝘁𝘂𝘀: 𝗦𝘂𝗰𝗰𝗲𝘀𝘀 ✔\n"
+        "🔋 𝗘𝘅𝘁𝗿𝗮𝗰𝘁𝗶𝗼𝗻 𝗦𝘁𝗮𝘁𝘂𝘀: 🗹 𝖲𝖴𝖢𝖢𝖤𝖲𝖲\n" 
         + "𝖳𝖾𝗑𝗍 𝖽𝖺𝗍𝖺 𝖾𝗑𝗍𝗋𝖺𝖼𝗍𝗂𝗈𝗇 𝗁𝖺𝗌 𝖻𝖾𝖾𝗇 𝖼𝗈𝗆𝗉𝗅𝖾𝗍𝖾𝖽 𝖿𝗈𝗋 𝖺𝗅𝗅 𝗎𝗉𝗅𝗈𝖺𝖽𝗌.\n"
         + "𝖯𝗅𝖾𝖺𝗌𝖾 𝗋𝖾𝖿𝖾𝗋 𝗍𝗈 𝗍𝖾𝗑𝗍𝖺𝗋𝖾𝖺 𝗈𝗇 𝗍𝗁𝖾 𝗋𝗂𝗀𝗁𝗍 𝗍𝗈 𝖺𝖼𝖼𝖾𝗌𝗌 𝖮𝖢𝖱 𝗋𝖾𝗌𝗎𝗅𝗍𝗌."
         + "\n"
         + "\n";
-        JOptionPane.showMessageDialog(appFrame, message, "🔍 🗘𝐂𝐑 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(appFrame, message, "🔍 𝐎𝐂𝐑 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠", JOptionPane.PLAIN_MESSAGE);
     }
     
     public void displayOCRCompletionDialog(JFrame appFrame) {
         String message = 
-        "⛶ 𝗢𝗖𝗥 𝗦𝘁𝗮𝘁𝘂𝘀: 𝗦𝘂𝗰𝗰𝗲𝘀𝘀 ✔\n"
+        "🔋 𝗘𝘅𝘁𝗿𝗮𝗰𝘁𝗶𝗼𝗻 𝗦𝘁𝗮𝘁𝘂𝘀: 🗹 𝖲𝖴𝖢𝖢𝖤𝖲𝖲\n"
         + "𝖳𝖾𝗑𝗍 𝖽𝖺𝗍𝖺 𝖾𝗑𝗍𝗋𝖺𝖼𝗍𝗂𝗈𝗇 𝗁𝖺𝗌 𝖻𝖾𝖾𝗇 𝖼𝗈𝗆𝗉𝗅𝖾𝗍𝖾𝖽 𝖿𝗈𝗋 𝖼𝗎𝗋𝗋𝖾𝗇𝗍 𝗌𝖾𝗅𝖾𝖼𝗍𝗂𝗈𝗇.\n"
         + "𝖯𝗅𝖾𝖺𝗌𝖾 𝗋𝖾𝖿𝖾𝗋 𝗍𝗈 𝗍𝖾𝗑𝗍𝖺𝗋𝖾𝖺 𝗈𝗇 𝗍𝗁𝖾 𝗋𝗂𝗀𝗁𝗍 𝗍𝗈 𝖺𝖼𝖼𝖾𝗌𝗌 𝖮𝖢𝖱 𝗋𝖾𝗌𝗎𝗅𝗍𝗌."
         + "\n"
         + "\n";
-        JOptionPane.showMessageDialog(appFrame, message, "🔍 🗘𝐂𝐑 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(appFrame, message, "🔍 𝐎𝐂𝐑 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠", JOptionPane.PLAIN_MESSAGE);
     }
     
     public void displayUploadCompletionDialog(JFrame appFrame) {
         String message = 
-        "📤 𝗨𝗽𝗹𝗼𝗮𝗱 𝗦𝘁𝗮𝘁𝘂𝘀: 𝗖𝗼𝗺𝗽𝗹𝗲𝘁𝗲\n"
+        "📤 𝗨𝗽𝗹𝗼𝗮𝗱 𝗦𝘁𝗮𝘁𝘂𝘀: 𝖢𝖮𝖬𝖯𝖫𝖤𝖳𝖤!\n"
         + "𝖠𝗅𝗅 𝗂𝗇𝗉𝗎𝗍𝗌 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝗎𝗉𝗅𝗈𝖺𝖽𝖾𝖽 𝗌𝗎𝖼𝖼𝖾𝗌𝗌𝖿𝗎𝗅𝗅𝗒.\n"
         + "𝖮𝖢𝖱 𝖾𝗑𝗍𝗋𝖺𝖼𝗍𝗂𝗈𝗇 𝗉𝗋𝗈𝖼𝖾𝗌𝗌 𝗂𝗌 𝗇𝗈𝗐 𝗋𝖾𝖺𝖽𝗒 𝗍𝗈 𝗋𝗎𝗇."
         + "\n"
         + "\n";
-        JOptionPane.showMessageDialog(appFrame, message, "🔍 🗘𝐂𝐑 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(appFrame, message, "🔍 𝐎𝐂𝐑 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠", JOptionPane.PLAIN_MESSAGE);
     }
     
        

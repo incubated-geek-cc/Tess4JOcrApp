@@ -5,7 +5,6 @@ public class MeasurementConstants {
     private static final int FRAME_HEIGHT = 645;//625;
     
     private static final int MAX_ICON_LENGTH = 30;
-    
     private static final int ICON_FONT_SIZE = 12;
     private static final int TEXT_FONT_SIZE = 12;
     private static final int FOOTER_FONT_SIZE = 12;
@@ -15,13 +14,18 @@ public class MeasurementConstants {
     private static final double DIVIDER_LOCATION_MAIN_CONTENT = 0.65;
     private static final double RESIZE_WEIGHT_MAIN_CONTENT = 0.65;
     private static final int SPLIT_PANE_MAIN_CONTENT_BORDER_THICKNESS = 4;
-    
     private static final double DIVIDER_LOCATION_OUTPUT_LOGS = 0.5;
     private static final double RESIZE_WEIGHT_OUTPUT_LOGS = 0.5;
-    
     private static final int SCROLL_PANE_PADDING = 5;
     
     private static final int IMAGE_DPI = 300;
+    private static final double ZOOM_FACTOR=0.8;
+    
+    
+    
+    public double getZoomFactor() {
+        return ZOOM_FACTOR;
+    }
     
     public int getScrollPanePadding() {
         return SCROLL_PANE_PADDING;
