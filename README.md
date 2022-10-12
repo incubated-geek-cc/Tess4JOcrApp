@@ -41,6 +41,10 @@
 <img src='https://miro.medium.com/max/1400/1*fr7t2IMJYagNBZc8axun_w.png' width='600'>
 
 ---
+#### Latest Application GUI
+<img src='https://raw.githubusercontent.com/incubated-geek-cc/Tess4JOcrApp/main/app_screenshot_latest.png' width='600'>
+
+---
 
 ## License
 

@@ -1,8 +1,8 @@
 package app.settings;
 
 public class MeasurementConstants {
-    private static final int FRAME_WIDTH = 880;
-    private static final int FRAME_HEIGHT = 625;
+    private static final int FRAME_WIDTH = 990;//880;
+    private static final int FRAME_HEIGHT = 645;//625;
     
     private static final int MAX_ICON_LENGTH = 30;
     
@@ -11,32 +11,44 @@ public class MeasurementConstants {
     private static final int FOOTER_FONT_SIZE = 12;
     private static final int PLACEHOLDER_FONT_SIZE = 15;
     
-    private static final int DIVIDER_SIZE = 15;
-    private static final double DIVIDER_LOCATION = 0.5;
-    private static final double RESIZE_WEIGHT = 0.5;
-    private static final int SPLIT_PANE_BORDER_THICKNESS = 10;
-    private static final int SCROLL_PANEL_PADDING = 5;
+    private static final int DIVIDER_SIZE = 4;
+    private static final double DIVIDER_LOCATION_MAIN_CONTENT = 0.65;
+    private static final double RESIZE_WEIGHT_MAIN_CONTENT = 0.65;
+    private static final int SPLIT_PANE_MAIN_CONTENT_BORDER_THICKNESS = 4;
+    
+    private static final double DIVIDER_LOCATION_OUTPUT_LOGS = 0.5;
+    private static final double RESIZE_WEIGHT_OUTPUT_LOGS = 0.5;
+    
+    private static final int SCROLL_PANE_PADDING = 5;
     
     private static final int IMAGE_DPI = 300;
     
     public int getScrollPanePadding() {
-        return SCROLL_PANEL_PADDING;
+        return SCROLL_PANE_PADDING;
     }
     
-    public int getSplitPaneBorderThickness() {
-        return SPLIT_PANE_BORDER_THICKNESS;
+    public int getSplitPaneMainContentBorderThickness() {
+        return SPLIT_PANE_MAIN_CONTENT_BORDER_THICKNESS;
     }
     
     public int getImageDPI() {
         return IMAGE_DPI;
     }
     
-    public double getResizeWeight() {
-        return RESIZE_WEIGHT;
+    public double getResizeWeightMainContent() {
+        return RESIZE_WEIGHT_MAIN_CONTENT;
     }
     
-    public double getDividerLocation() {
-        return DIVIDER_LOCATION;
+    public double getDividerLocationMainContent() {
+        return DIVIDER_LOCATION_MAIN_CONTENT;
+    }
+    
+    public double getResizeWeightOutputLogs() {
+        return RESIZE_WEIGHT_OUTPUT_LOGS;
+    }
+    
+    public double getDividerLocationOutputLogs() {
+        return DIVIDER_LOCATION_OUTPUT_LOGS;
     }
     
     public int getMaxIconLength() {

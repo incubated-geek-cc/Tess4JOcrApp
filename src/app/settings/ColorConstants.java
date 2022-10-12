@@ -10,21 +10,23 @@ public class ColorConstants {
     private static final Color SPLIT_PANE_FONT_COLOR = new Color(32, 56, 100); // DARKER BLUE
     
     private static final Color SPLIT_PANE_PARENT_PANE_OBJ_BG_COLOR = new Color(60, 63, 65); // #3c3f41 | nearly black
-   
+    private static final Color PROFILE_LINK_COLOR=new Color(238, 63, 134); // PROFILE LINK PINK
+    
+    public Color getProfileLinkColor() {
+        return PROFILE_LINK_COLOR;
+    }
     public Color getAppBgColor() {
         return APP_BG_COLOR;
     }
     public Color getAppFontColor() {
         return APP_FONT_COLOR;
     }
-    
     public Color getSplitPaneBgColor() {
         return SPLIT_PANE_BG_COLOR;
     }
     public Color getSplitPaneFontColor() {
         return SPLIT_PANE_FONT_COLOR;
     }
-    
     public Color getSplitPaneParentPaneObjBgColor() {
         return SPLIT_PANE_PARENT_PANE_OBJ_BG_COLOR;
     }
