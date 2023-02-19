@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/incubated-geek-cc/emoji2image/raw/main/img/logo.png" width="96" alt="logo">
+  <img src="https://github.com/incubated-geek-cc/Tess4JOcrApp/raw/main/img/logo.png" width="96" alt="logo">
 
   # 🔎 Tess4JOcrApp
 
@@ -33,7 +33,7 @@
 
 
 #### 🌟 Latest Application GUI
-<img src='https://raw.githubusercontent.com/incubated-geek-cc/Tess4JOcrApp/main/app_screenshot_latest.png' width='600px'>
+<img src='https://raw.githubusercontent.com/incubated-geek-cc/Tess4JOcrApp/raw/main/img/app_screenshot_latest.png' width='600px'>
 
 ---
 
