@@ -24,10 +24,13 @@
 ### ✍ Read related posts here
 
 [**Article One :: Link**](https://towardsdatascience.com/build-a-portable-ocr-tool-in-4-steps-with-tess4j-jar-a-tesseract-wrapper-for-java-6d1be3f0cb3d)
-<img src='https://miro.medium.com/max/1050/1*9NsRWm70SYS5Au9wnsf8SA.png' width='600px' />
 
-<img src='https://miro.medium.com/max/1400/1*kYCQ76pDFlKZAd6CD01ibA.png' width='600px'>
+<br><img src='https://miro.medium.com/max/1050/1*9NsRWm70SYS5Au9wnsf8SA.png' width='600px' />
+
 [**Article Two :: Link**](https://towardsdatascience.com/building-an-ocr-native-application-tool-with-tess4j-extract-text-from-pdf-in-just-3-steps-a51d28e16084)
+
+<br><img src='https://miro.medium.com/max/1400/1*kYCQ76pDFlKZAd6CD01ibA.png' width='600px'>
+
 
 #### 🌟 Latest Application GUI
 <img src='https://raw.githubusercontent.com/incubated-geek-cc/Tess4JOcrApp/main/app_screenshot_latest.png' width='600px'>
