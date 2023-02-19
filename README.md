@@ -33,7 +33,7 @@
 
 
 #### 🌟 Latest Application GUI
-<img src='https://raw.githubusercontent.com/incubated-geek-cc/Tess4JOcrApp/raw/main/img/app_screenshot_latest.png' width='600px'>
+<img src='https://github.com/incubated-geek-cc/Tess4JOcrApp/raw/main/img/app_screenshot_latest.png' width='600px'>
 
 ---
 
