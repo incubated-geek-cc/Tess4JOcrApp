@@ -1,7 +1,7 @@
 package app.settings;
 
 public class MeasurementConstants {
-    private static final int FRAME_WIDTH = 990;//880;
+    private static final int FRAME_WIDTH = 950;//880;
     private static final int FRAME_HEIGHT = 645;//625;
     
     private static final int MAX_ICON_LENGTH = 30;
@@ -14,8 +14,6 @@ public class MeasurementConstants {
     private static final double DIVIDER_LOCATION_MAIN_CONTENT = 0.65;
     private static final double RESIZE_WEIGHT_MAIN_CONTENT = 0.65;
     private static final int SPLIT_PANE_MAIN_CONTENT_BORDER_THICKNESS = 4;
-    private static final double DIVIDER_LOCATION_OUTPUT_LOGS = 0.5;
-    private static final double RESIZE_WEIGHT_OUTPUT_LOGS = 0.5;
     private static final int SCROLL_PANE_PADDING = 5;
     
     private static final int IMAGE_DPI = 300;
@@ -45,14 +43,6 @@ public class MeasurementConstants {
     
     public double getDividerLocationMainContent() {
         return DIVIDER_LOCATION_MAIN_CONTENT;
-    }
-    
-    public double getResizeWeightOutputLogs() {
-        return RESIZE_WEIGHT_OUTPUT_LOGS;
-    }
-    
-    public double getDividerLocationOutputLogs() {
-        return DIVIDER_LOCATION_OUTPUT_LOGS;
     }
     
     public int getMaxIconLength() {

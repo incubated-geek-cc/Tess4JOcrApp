@@ -32,8 +32,11 @@
 <br><img src='https://miro.medium.com/max/1400/1*kYCQ76pDFlKZAd6CD01ibA.png' width='600px'>
 
 
-#### 🌟 Latest Application GUI
-<img src='https://github.com/incubated-geek-cc/Tess4JOcrApp/raw/main/img/app_screenshot_latest.png' width='600px'>
+#### Application GUI as of Sep 2022
+<img src='https://github.com/incubated-geek-cc/Tess4JOcrApp/raw/main/img/app_screenshot_v2.5.png' width='600px'>
+
+#### 🌟 Application GUI as of Feb 2024
+<img src='https://github.com/incubated-geek-cc/Tess4JOcrApp/raw/main/img/app_screenshot_v3.png' width='600px'>
 
 ---
 

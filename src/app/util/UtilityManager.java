@@ -11,7 +11,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -40,7 +43,7 @@ public class UtilityManager {
     public UtilityManager(JTextArea LOG_TEXT_AREA, JScrollPane JSCROLL_PANEL_OUTPUT_LOGS) {
         this.LOG_TEXT_AREA = LOG_TEXT_AREA;
         LOG_TEXT_AREA.setForeground(new Color(255,255,255));
-        LOG_TEXT_AREA.setFont(new Font("Arial Nova Light", Font.PLAIN, 11));
+        LOG_TEXT_AREA.setFont(new Font("Arial Nova Light", Font.CENTER_BASELINE, 11));
         this.JSCROLL_PANEL_OUTPUT_LOGS = JSCROLL_PANEL_OUTPUT_LOGS;
         JSCROLL_PANEL_OUTPUT_LOGS.setHorizontalScrollBar(null);
         DefaultCaret caret = (DefaultCaret) LOG_TEXT_AREA.getCaret();
@@ -117,7 +120,12 @@ public class UtilityManager {
         };
         worker.execute();
     }
-    
+    public void writeStringToFile(String filepath, String content) throws IOException {
+        File outputFile = new File(filepath);
+        try (FileWriter fileWriter = new FileWriter(outputFile)) {
+            fileWriter.write(content);
+        }
+    }
     public String getCurrentTimeStamp() {
         String timestamp = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
         return timestamp;
@@ -133,6 +141,16 @@ public class UtilityManager {
         tmpImage.flush();
 
         return bImg;
+    }
+    public void convertInputStreamToFileOutputStream(byte[] buffer, File outputFile) throws FileNotFoundException, IOException {
+        InputStream inStream = new ByteArrayInputStream(buffer);
+        FileOutputStream fos = new FileOutputStream(outputFile);
+        int read;
+        byte[] bytes = new byte[1024];
+        while ((read = inStream.read(bytes)) != -1) {
+            fos.write(bytes, 0, read);
+        }
+        fos.close();
     }
     public ImageIcon getDataURIToImageIcon(String dataURI, int maxWidth, int maxHeight) throws IOException {
         ImageIcon imgIcon = null;
@@ -150,25 +168,38 @@ public class UtilityManager {
         try {
             ImageIO.write(img, imageFileType, baos);
             return baos.toByteArray();
-        } catch (Throwable e) {
+        } catch (IOException e) {
             throw new RuntimeException();
         }
     }
+    public byte[] getFileToBytes(File f) throws FileNotFoundException, IOException {
+        FileInputStream fis = new FileInputStream(f);
+        byte buffer[] = new byte[1024];
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        for (int len; (len = fis.read(buffer)) != -1;) {
+            bos.write(buffer, 0, len);
+        }
+        return bos.toByteArray();
+    }
     public String getFileToDataURI(File imageFile) throws FileNotFoundException, IOException {
         String base64File = "";
-        FileInputStream imageInFile = new FileInputStream(imageFile);
-        byte fileData[] = new byte[(int) imageFile.length()];
-        imageInFile.read(fileData);
-        base64File = Base64.getEncoder().encodeToString(fileData);
-        imageInFile.close();
+        try (FileInputStream imageInFile = new FileInputStream(imageFile)) {
+            byte fileData[] = new byte[(int) imageFile.length()];
+            imageInFile.read(fileData);
+            base64File = Base64.getEncoder().encodeToString(fileData);
+        }
         
         return base64File;
     }
     public String getBufferImgToDataURI(BufferedImage bImg, String type) throws IOException {
         String imageString = null;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    
         ImageIO.write(bImg, type, bos);
+        /*
+        im - a RenderedImage to be written. 
+        formatName - a String containing the informal name of the format. 
+        output - a File to be written to.
+        */
         byte[] imageBytes = bos.toByteArray();
         imageString = Base64.getEncoder().encodeToString(imageBytes);
         bos.close();
@@ -228,6 +259,57 @@ public class UtilityManager {
         JOptionPane.showMessageDialog(appFrame, message, "🔍 𝐎𝐂𝐑 𝐏𝐫𝐨𝐜𝐞𝐬𝐬𝐢𝐧𝐠", JOptionPane.PLAIN_MESSAGE);
     }
     
+//    public void unzip(String zipFilePath, String destDirectory) {
+//        ZipInputStream zipIn = null;
+//        try {
+//            File destDir = new File(destDirectory);
+//            if (!destDir.exists()) {
+//                destDir.mkdir();
+//            }   zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
+//            ZipEntry entry = zipIn.getNextEntry();
+//            // iterates over entries in the zip file
+//            while (entry != null) {
+//                String filePath = destDirectory + File.separator + entry.getName();
+//                if (!entry.isDirectory()) {
+//                    // if the entry is a file, extracts it
+//                    extractFile(zipIn, filePath, (int) entry.getSize());
+//                } else {
+//                    // if the entry is a directory, make the directory
+//                    File dir = new File(filePath);
+//                    dir.mkdirs();
+//                }
+//                zipIn.closeEntry();
+//                entry = zipIn.getNextEntry();
+//            }   zipIn.close();
+//        } catch (FileNotFoundException ex) {
+//            ex.printStackTrace();
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        } finally {
+//            try {
+//                if(zipIn != null) {
+//                    zipIn.close();
+//                }
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+//    }
+//    /**
+//     * Extracts a zip entry (file entry)
+//     * @param zipIn
+//     * @param filePath
+//     * @throws IOException
+//     */
+//    private void extractFile(ZipInputStream zipIn, String filePath, int bufferSize) throws IOException {
+//        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+//        byte[] bytesIn = new byte[bufferSize];
+//        int read = 0;
+//        while ((read = zipIn.read(bytesIn)) != -1) {
+//            bos.write(bytesIn, 0, read);
+//        }
+//        bos.close();
+//    }
        
 //    public BufferedImage getGrayscaledBufferImg(BufferedImage ipimage) {
 //        Color color[]; // Declaring an array to hold color spectrum

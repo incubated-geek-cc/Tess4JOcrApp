@@ -10,7 +10,7 @@ public class ColorConstants {
     private static final Color SPLIT_PANE_FONT_COLOR = new Color(32, 56, 100); // DARKER BLUE
     
     private static final Color SPLIT_PANE_PARENT_PANE_OBJ_BG_COLOR = new Color(60, 63, 65); // #3c3f41 | nearly black
-    private static final Color PROFILE_LINK_COLOR=new Color(238, 63, 134); // PROFILE LINK PINK
+    private static final Color PROFILE_LINK_COLOR=new Color(2, 203, 254); // PROFILE LINK BLUE
     
     public Color getProfileLinkColor() {
         return PROFILE_LINK_COLOR;

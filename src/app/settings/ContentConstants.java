@@ -4,16 +4,13 @@ public class ContentConstants {
 
     private static final String APP_NAME = "『🔎 𝗧𝗲𝘀𝘀𝗲𝗿𝗮𝗰𝘁 𝗢𝗖𝗥』";
     private static final String PLACEHOLDER_TEXT = "- 𝙽𝙸𝙻 -";
-    private static final String DISPLAYED_PROFILE_LINK = "h̲t̲t̲p̲s̲://g̲e̲e̲k̲-c̲c̲.m̲e̲d̲i̲u̲m̲.c̲o̲m̲̲";
+    private static final String DISPLAYED_PROFILE_LINK = " h̲t̲t̲p̲s̲://g̲e̲e̲k̲-c̲c̲.m̲e̲d̲i̲u̲m̲.c̲o̲m̲̲";
     private static final String PROFILE_LINK = "https://medium.com/@geek-cc";
     private static final String QUICK_TIPS_TITLE = "🗦💡🗧𝚀𝚞𝚒𝚌𝚔 𝚃𝚒𝚙𝚜";
     private static final String OPEN_IMG_BTN_TEXT = " 𝙾𝚙𝚎𝚗 𝙸𝚖𝚊𝚐𝚎 ";
     private static final String UPLOAD_PDF_BTN_TEXT = " 𝚄𝚙𝚕𝚘𝚊𝚍 𝙿𝙳𝙵 ";
     private static final String RUN_OCR_BTN_TEXT = " 𝚁𝚞𝚗 𝙾𝙲𝚁 ≫ ";
     private static final String OCR_ALL_BTN_TEXT = " 𝙾𝙲𝚁 𝙰𝚕𝚕 ≫ ";
-    private static final String SAVE_TEXT_BTN_TEXT = " 𝚂𝚊𝚟𝚎 𝚃𝚎𝚡𝚝  ";
-    private static final String COPY_TEXT_BTN_TEXT = " 𝙲𝚘𝚙𝚢 𝚃𝚎𝚡𝚝  ";
-    private static final String CLEAR_TEXT_BTN_TEXT = " 𝙲𝚕𝚎𝚊𝚛 𝚃𝚎𝚡𝚝 ";
     private static final String RESET_ALL_BTN_TEXT = " 𝚁𝚎𝚜𝚎𝚝 𝙰𝚕𝚕  ";
     private static final String QUICK_TIPS_BTN_TEXT = " 𝚀𝚞𝚒𝚌𝚔 𝚃𝚒𝚙𝚜 ";
 
@@ -21,19 +18,20 @@ public class ContentConstants {
     private static final String UPLOAD_PDF_BTN_TOOLTIP = "📖 Select a PDF document";
     private static final String RUN_OCR_BTN_TOOLTIP = "📖 Processes current selection and outputs/appends extracted text in the textarea";
     private static final String OCR_ALL_BTN_TOOLTIP = "📖 Processes all uploads and outputs/appends extracted text in the textarea";
-    private static final String SAVE_TEXT_BTN_TOOLTIP = "📖 Saves all text to a text(.txt) file";
+    private static final String SAVE_TEXT_BTN_TOOLTIP = "📖 Saves textarea content to a output file";
     private static final String COPY_TEXT_BTN_TOOLTIP = "📖 Selects and copies textarea content";
-    private static final String CLEAR_TEXT_BTN_TOOLTIP = "📖 Clears all text in the textarea";
+    private static final String CLEAR_TEXT_BTN_TOOLTIP = "📖 Clears textarea content";
     private static final String RESET_ALL_BTN_TOOLTIP = "📖 Resets the application to its default state";
     private static final String QUICK_TIPS_BTN_TOOLTIP = "📖 Displays features & functionalities of application";
 
-    private static final String PREV_PAGE_BTN_TEXT =    " ⮘📄 ";
-    private static final String NEXT_PAGE_BTN_TEXT =    " 📄⮚ ";
-    private static final String ZOOM_IN_BTN_TEXT =      "  ⁺🔍  "; 
-    private static final String ZOOM_OUT_BTN_TEXT =     "  ⁻🔍  "; 
-    private static final String ROTATE_LEFT_BTN_TEXT =  "   ⭯   "; 
-    private static final String ROTATE_RIGHT_BTN_TEXT = "   ⭮   ";
-    private static final String FIT_IMAGE_BTN_TEXT =    " ⛶ ";
+    private static final String PREV_PAGE_BTN_TEXT =    " 🞀 ";
+    private static final String NEXT_PAGE_BTN_TEXT =    " 🞂 "; 
+    private static final String ZOOM_IN_BTN_TEXT =      "  ⁺🔍 "; 
+    private static final String ZOOM_OUT_BTN_TEXT =     " ⁻🔍  ";
+    private static final String ROTATE_LEFT_BTN_TEXT =  "  ⭯   "; 
+    private static final String ROTATE_RIGHT_BTN_TEXT = "   ⭮  ";  
+    private static final String FIT_IMAGE_BTN_TEXT =    "  "; 
+
 
     private static final String PREV_PAGE_BTN_TOOLTIP = "📖 Prev Page";
     private static final String NEXT_PAGE_BTN_TOOLTIP = "📖 Next Page";
@@ -43,14 +41,20 @@ public class ContentConstants {
     private static final String ROTATE_RIGHT_BTN_TOOLTIP = "📖 Rotates Image clockwise";
     private static final String FIT_IMAGE_BTN_TOOLTIP = "📖 Fit Image";
 
-//    private static final String OPEN_IMAGE_NEW_WINDOW="⦏🡥⦐";
+//    private static final String OPEN_IMAGE_NEW_WINDOW="⦏🡥⦐"; 
     private static final String IMAGE_PREVIEW_PLACEHOLDER = "🖼 Preview";
-    private static final String TEXTAREA_PLACEHOLDER = "Note: Auto-appends OCR results here";
+    private static final String OCR_TEXTAREA_PLACEHOLDER = "Note: Auto-appends OCR results here";
+    private static final String HOCR_TEXTAREA_PLACEHOLDER = "Note: Auto-appends HOCR results here";
 
-    public String getTextareaPlaceholder() {
-        return TEXTAREA_PLACEHOLDER;
+    public String getOCRTextareaPlaceholder() {
+        return OCR_TEXTAREA_PLACEHOLDER;
     }
-
+    public String getOCRAllBtnText() {
+        return OCR_ALL_BTN_TEXT;
+    }
+    public String getHOCRTextareaPlaceholder() {
+        return HOCR_TEXTAREA_PLACEHOLDER;
+    }
     public String getImagePreviewPlaceholder() {
         return IMAGE_PREVIEW_PLACEHOLDER;
     }
@@ -78,7 +82,10 @@ public class ContentConstants {
     public String geRotateRightText() {
         return ROTATE_RIGHT_BTN_TEXT;
     }
-
+    
+     public String getOCRAllBtnTooltip() {
+        return OCR_ALL_BTN_TOOLTIP;
+    }
     public String getFitImageText() {
         return FIT_IMAGE_BTN_TEXT;
     }
@@ -122,23 +129,7 @@ public class ContentConstants {
     public String getRunOCRBtnText() {
         return RUN_OCR_BTN_TEXT;
     }
-
-    public String getOCRAllBtnText() {
-        return OCR_ALL_BTN_TEXT;
-    }
-
-    public String getSaveTextBtnText() {
-        return SAVE_TEXT_BTN_TEXT;
-    }
-
-    public String getCopyTextBtnText() {
-        return COPY_TEXT_BTN_TEXT;
-    }
-
-    public String getClearTextBtnText() {
-        return CLEAR_TEXT_BTN_TEXT;
-    }
-
+    
     public String getResetAllBtnText() {
         return RESET_ALL_BTN_TEXT;
     }
@@ -157,10 +148,6 @@ public class ContentConstants {
 
     public String getRunOCRBtnTooltip() {
         return RUN_OCR_BTN_TOOLTIP;
-    }
-
-    public String getOCRAllBtnTooltip() {
-        return OCR_ALL_BTN_TOOLTIP;
     }
 
     public String getSaveTextBtnTooltip() {
