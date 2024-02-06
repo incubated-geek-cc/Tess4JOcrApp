@@ -14,7 +14,6 @@ import java.awt.ComponentOrientation;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Desktop;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -80,9 +79,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultCaret;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.multipdf.Splitter;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 
 public class Main {
     // https://www.klippa.com/en/blog/information/tesseract-ocr/
@@ -777,11 +779,17 @@ public class Main {
             @Override
             protected Boolean doInBackground() {
                 File selectedFile = null;
+                PDDocument document = null;
+                Splitter splitter = null;
+                List<PDDocument> pages = null;
+                PDDocument page = null;
+                
                 BufferedImage tempPageImg = null;
+                ByteArrayOutputStream tempBos = null;
 
                 selectFileChooser = new JFileChooser();
                 selectFileChooser.setCurrentDirectory(browse_dir);
-                selectFileChooser.setDialogTitle("Upload PDF File:");
+                selectFileChooser.setDialogTitle("Select PDF File:");
                 selectFileChooser.setMultiSelectionEnabled(false);
                 selectFileChooser.setAcceptAllFileFilterUsed(false);
                 filter = new FileNameExtensionFilter("Pdf File (.pdf)", "pdf");
@@ -789,31 +797,28 @@ public class Main {
 
                 option = selectFileChooser.showOpenDialog(appFrame);
                 if (option == JFileChooser.APPROVE_OPTION) {
+                    selectedFile = selectFileChooser.getSelectedFile();
                     try {
-                        selectedFile = selectFileChooser.getSelectedFile();
-                        document = PDDocument.load(selectedFile);
-                        pdfRenderer = new PDFRenderer(document);
-
-                        if (selectedFile != null) {
-                            totalNoOfPages = document.getNumberOfPages();
-                            for (int p = 0; p < totalNoOfPages; p++) {
-                                try {
-                                    // FOR-EACH PAGE
-                                    tempPageImg = pdfRenderer.renderImageWithDPI(p, imageDPI, ImageType.RGB);
-                                    imageURI = utilityMgr.getBufferImgToDataURI(tempPageImg,"jpg");
-                                    INPUT_IMG_URI_LIST.add(imageURI);
-                                    jListInputPicsModel.addElement("Page " + (p+1));
-                                    publish(p); // to be received by process | 2nd parameter
-                                } catch (IOException ex) {
-                                    utilityMgr.getLogger().log(Level.SEVERE, null, ex);
-                                }
-                            }
+                        document = Loader.loadPDF(selectedFile);
+                        totalNoOfPages=document.getNumberOfPages();
+                        splitter = new Splitter();
+                        pages = splitter.split(document);
+                        for (int p = 0; p < totalNoOfPages; p++) { // FOR-EACH FILE
+                            page = pages.get(p);
+                            pdfRenderer = new PDFRenderer(page);
+                            tempPageImg = pdfRenderer.renderImageWithDPI(0, imageDPI, ImageType.RGB);
+                            tempBos = new ByteArrayOutputStream();
+                            ImageIOUtil.writeImage(tempPageImg, "jpg", tempBos, imageDPI);
+                            byte[] fileData=tempBos.toByteArray();
+                            imageURI = Base64.getEncoder().encodeToString(fileData);
+                            INPUT_IMG_URI_LIST.add(imageURI);
+                            publish(p); // to be received by process | 2nd parameter
+                            jListInputPicsModel.addElement("Page " + (p+1));
                         }
-                        return true;
                     } catch (IOException ex) {
                         utilityMgr.getLogger().log(Level.SEVERE, null, ex);
-
                     }
+                    return true;
                 }
                 return false;
             }
@@ -826,14 +831,13 @@ public class Main {
                         browse_dir = selectFileChooser.getCurrentDirectory();
                         updatePreviewedPageNo();
                         setSelectionStatus();
-                        document.close();
                         utilityMgr.displayUploadCompletionDialog(appFrame);
                     } else {
                         paginationDisplay.setText(placeholderText);
                         jListInputPicsModel.addElement(placeholderText);
                         jListInputPics.setSelectedIndex(0);
                     }
-                } catch (InterruptedException | ExecutionException | IOException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     utilityMgr.getLogger().log(Level.SEVERE, null, e);
                 }
             }
