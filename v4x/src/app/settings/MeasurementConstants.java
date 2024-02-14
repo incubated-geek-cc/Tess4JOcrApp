@@ -5,6 +5,7 @@ public class MeasurementConstants {
     private static final int FRAME_HEIGHT = 645;//625;
     
     private static final int MAX_ICON_LENGTH = 30;
+    private static final int MID_ICON_LENGTH = 25;
     private static final int ICON_FONT_SIZE = 12;
     private static final int TEXT_FONT_SIZE = 12;
     private static final int FOOTER_FONT_SIZE = 12;
@@ -18,8 +19,10 @@ public class MeasurementConstants {
     
     private static final int IMAGE_DPI = 300;
     private static final double ZOOM_FACTOR=0.8;
-    
-    
+
+    public int getMidIconLength() {
+        return MID_ICON_LENGTH;
+    }
     
     public double getZoomFactor() {
         return ZOOM_FACTOR;

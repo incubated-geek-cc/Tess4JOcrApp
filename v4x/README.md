@@ -9,7 +9,7 @@ Note that all datasets were retrieved from <a href='https://github.com/tesseract
 To run the application, simply ensure that `app/Tess4JOcrApp_v4x.jar` is located in the same folder as `tessdata`. Proceed to double-click it and application shall launch accordingly and display a popup window.
 
 ### 👀 Preview
-<img src='https://miro.medium.com/v2/resize:fit:4800/format:webp/1*hbNpGG_2b8Lj82iYYkib0A.png' width="800px" />
+<img src='https://miro.medium.com/v2/resize:fit:640/format:webp/1*MgRYiGNLZbBdLwkWrjSX0A.gif' width="800px" />
 
 ### ✍ Read related post here
 

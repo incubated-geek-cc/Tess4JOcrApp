@@ -120,7 +120,7 @@ public class Main {
         
     private static int frameWidth, frameHeight,
                        imageDPI,
-                       maxIconLength,iconFontSize,textFontSize,placeholderFontSize,footerFontSize,
+                       midIconLength, maxIconLength,iconFontSize,textFontSize,placeholderFontSize,footerFontSize,
                        dividerSize,splitPaneMainContentBorderThickness,scrollPanePadding;
     
     private static double dividerLocationMainContent,resizeWeightMainContent,zoomFactor;
@@ -170,7 +170,7 @@ public class Main {
     prevPageBtn,nextPageBtn,zoomInBtn,zoomOutBtn,rotateLeftBtn,rotateRightBtn,fitImageBtn;
     // ============================ // For the pagination pane content ====================
 
-    private static JPanel paginationPanel,bottomPanel,ocrSubPanel,hocrSubPanel,infoPanel;
+    private static JPanel paginationPanel,bottomPanel,ocrSubPanel,hocrSubPanel,infoPanel,navigationPanel;
     private static JDialog infoDialog;
 
     private static int maxImgWidth,maxImgHeight;
@@ -178,7 +178,7 @@ public class Main {
     private static Border buttonBorder,imagePreviewBorder,bottomPanelBorder,splitPaneMsinContentBorder,panelObjBorder,
     scrollPaneBorder,toolbarBorder,scrollPanePaddingBorder;
     
-    private static Font consoleLogsFont,iconFont,placeholderFont,textFont,footerFont;
+    private static Font iconFont,placeholderFont,textFont,footerFont;
 
     private static GridBagConstraints gc;
     private static double currentImageScale = 1.0;
@@ -211,6 +211,7 @@ public class Main {
         frameHeight = measurementConstants.getFrameHeight();
 
         maxIconLength = measurementConstants.getMaxIconLength();
+        midIconLength = measurementConstants.getMidIconLength();
         iconFontSize = measurementConstants.getIconFontSize();
         textFontSize = measurementConstants.getTextFontSize();
         footerFontSize = measurementConstants.getFooterFontSize();
@@ -281,7 +282,6 @@ public class Main {
         splitPaneMsinContentBorder = BorderFactory.createLineBorder(appBgColor, splitPaneMainContentBorderThickness);
         scrollPaneBorder = new SoftBevelBorder(BevelBorder.LOWERED, splitPaneMainContentBgColor, splitPaneMainContentBgColor, splitPaneMainContentBgColor, splitPaneMainContentBgColor);
         
-        consoleLogsFont = new Font(Font.MONOSPACED, Font.PLAIN, textFontSize);
         iconFont = new Font("Arial Unicode MS", Font.ROMAN_BASELINE, iconFontSize);
         textFont = new Font("Arial Nova Light", Font.ROMAN_BASELINE, textFontSize);
         placeholderFont = new Font("Segoe UI Emoji", Font.ROMAN_BASELINE, placeholderFontSize);
@@ -354,19 +354,19 @@ public class Main {
             resetAllBtn.setIcon(utilityMgr.getDataURIToImageIcon(resetAllIconURI, maxIconLength, maxIconLength));
             quickTipsBtn.setIcon(utilityMgr.getDataURIToImageIcon(quickTipsIconURI, maxIconLength, maxIconLength));
             
-            ocrIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getPLAIN_TEXT_URI(), 25, 25);
-            hocrIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getHTML_TEXT_URI(), 25, 25);
+            ocrIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getPLAIN_TEXT_URI(), midIconLength, midIconLength);
+            hocrIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getHTML_TEXT_URI(), midIconLength, midIconLength);
             
-            saveIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getSAVE_ICON_URI(), 25, 25);
-            copyIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getCOPY_ICON_URI(), 25, 25);
+            saveIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getSAVE_ICON_URI(), midIconLength, midIconLength);
+            copyIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getCOPY_ICON_URI(), midIconLength, midIconLength);
             
-            zoomInIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getZOOM_IN_URI(), 25, 25);
-            zoomOutIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getZOOM_OUT_URI(), 25, 25);
-            prevPageIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getPREV_PAGE_URI(), 25, 25);
-            nextPageIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getNEXT_PAGE_URI(), 25, 25);
-            rotateLeftIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getROTATE_LEFT_URI(), 25, 25);
-            rotateRightIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getROTATE_RIGHT_URI(), 25, 25);
-            fitImageIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getFIT_IMAGE_URI(), 25, 25);
+            zoomInIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getZOOM_IN_URI(), midIconLength, midIconLength);
+            zoomOutIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getZOOM_OUT_URI(), midIconLength, midIconLength);
+            prevPageIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getPREV_PAGE_URI(), midIconLength, midIconLength);
+            nextPageIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getNEXT_PAGE_URI(), midIconLength, midIconLength);
+            rotateLeftIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getROTATE_LEFT_URI(), midIconLength, midIconLength);
+            rotateRightIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getROTATE_RIGHT_URI(), midIconLength, midIconLength);
+            fitImageIcon=utilityMgr.getDataURIToImageIcon(iconConstants.getFIT_IMAGE_URI(), midIconLength, midIconLength);
         } catch (IOException e) {
             utilityMgr.getLogger().log(Level.SEVERE, null, e);
         }
@@ -435,18 +435,25 @@ public class Main {
 
         leftMainPanel.add(paginationDisplay, BorderLayout.NORTH);
         leftMainPanel.add(imagePreviewScrollPane, BorderLayout.CENTER);
-        JPanel navigationPanel = new JPanel();
+        navigationPanel = new JPanel();
         navigationPanel.setForeground(appFontColor);
         navigationPanel.setBorder(BorderFactory.createRaisedBevelBorder());
         navigationPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         
-        navigationPanel.add(prevPageBtn);
-        navigationPanel.add(nextPageBtn);
-        navigationPanel.add(zoomInBtn);
-        navigationPanel.add(zoomOutBtn);
-        navigationPanel.add(rotateLeftBtn);
-        navigationPanel.add(rotateRightBtn);
-        navigationPanel.add(fitImageBtn);
+        navigationPanel.add(new JLabel("Controls  "));
+        
+        JButton[] controlBtns = {
+            prevPageBtn,nextPageBtn,
+            zoomInBtn,zoomOutBtn,
+            rotateLeftBtn,rotateRightBtn,
+            fitImageBtn
+        };
+        
+        for(JButton controlBtn:controlBtns) {
+            controlBtn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedSoftBevelBorder(), BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+            navigationPanel.add(controlBtn);
+        }
+        
         
         leftMainPanel.add(navigationPanel, BorderLayout.SOUTH);
         // ================================= Set up page navigation panel =============================
@@ -526,7 +533,7 @@ public class Main {
             copyOCRBtn,copyHOCRBtn
         };
         for(JButton subBtn:subBtns) {
-            subBtn.setBorder(buttonBorder);
+            subBtn.setBorder(BorderFactory.createRaisedSoftBevelBorder());
             subBtn.setFont(iconFont);
             subBtn.setForeground(appFontColor);
             subBtn.setCursor(POINTER_CURSOR);
@@ -1538,6 +1545,6 @@ public class Main {
                     }
                 }
             });
-        });
+        }); // Java JNA-based wrapper for Tesseract OCR DLL 2.04 |  support for more image formats (PNG, BMP, GIF, PDF, JPEG) | Update Tesseract to Tesseract 4.1.1
     }
 }
