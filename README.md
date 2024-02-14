@@ -38,6 +38,8 @@
 #### 🌟 Application GUI as of Feb 2024
 <img src='https://github.com/incubated-geek-cc/Tess4JOcrApp/raw/main/img/app_screenshot_v3.png' width='600px'>
 
+### Note: As of current, the latest version is available in the folder at <a href='https://github.com/incubated-geek-cc/Tess4JOcrApp/tree/main/v4x'>v4x</a>.
+
 ---
 
 ## License
